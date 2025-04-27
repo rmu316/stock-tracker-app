@@ -1,0 +1,13 @@
+# Node.js
+node_modules/
+
+# Python
+__pycache__/
+*.pyc
+
+# Docker
+*.log
+
+# Sonstiges
+.env
+build/

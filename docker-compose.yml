@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres
+    container_name: stock-tracker-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_DB: stocksdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./stock-tracker-backend
+    container_name: stock-tracker-backend
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://postgres:mysecretpassword@db:5432/stocksdb
+    depends_on:
+      - db
+  
+  frontend:
+    build:
+      context: ./stock-tracker-frontend
+    container_name: stock-tracker-frontend
+    restart: always
+    ports:
+      - "3000:80"
+
+volumes:
+  db_data:
